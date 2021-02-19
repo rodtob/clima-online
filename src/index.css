@@ -20,6 +20,51 @@
 }
 
 .titulo{
-  width: 80vw;
+  width: 80%;
   border-bottom: orange 1px solid;
+}
+
+.row{
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+}
+
+.cards{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+
+  border:orange 1px solid;
+  padding: 2vh;
+  margin: 1vh;
+}
+
+
+.imagenClima{
+  width: 40%;
+}
+
+.contReporte{
+  display: flex;
+  flex-direction: row;
+}
+
+.left{
+
+  text-align: left;
+
+}
+
+.right{
+
+  text-align: right;
+
+}
+
+.contBuscar{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
