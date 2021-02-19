@@ -8,7 +8,8 @@ function App() {
         <p>logo</p>
         <p>login</p>
       </navbar>
-     <h1 className='titulo'> Servicio del Clima</h1>
+     <main className="main"> 
+     <h1 className='titulo'> SERVICIO DEL CLIMA</h1>
 
     <article className='row'>
 
@@ -17,10 +18,10 @@ function App() {
               <h3>Seleccioná la zona</h3>
               <article className="contBuscar">
               <label className="left">País</label>
-              <input placeholder="Seleccioná un país" />
+              <input className="elinput" placeholder="Seleccioná un país" />
               <label className="left">Ciudad</label>
-              <input placeholder="Seleccioná una ciudad" />
-              <input type='submit' value="Buscar"/>
+              <input className="elinput" placeholder="Seleccioná una ciudad" />
+              <input className="submit" type='submit' value="BUSCAR"/>
               </article>
             </section>
 
@@ -29,7 +30,7 @@ function App() {
               <h3>Reporte</h3>
               <article className='contReporte'>
 
-                <section className="left">
+                <section className="columnaReporte left">
                     <p>Pais</p>
                     <p>Ciudad</p>
                     <p>Dia</p>
@@ -39,7 +40,7 @@ function App() {
 
                 </section>
 
-                <section className='right' >
+                <section className="columnaReporte right" >
                     <img src={sun} className="imagenClima"/>
                     <p>Probabilidad de precipitaciones</p>
                     <p>Humedad: </p>
@@ -73,6 +74,11 @@ function App() {
          <img className="imagenClima" src={sun}/>
         </article>
      </section>
+     </main>
+     <footer className="navBar footer">
+       <p>Copyrigth 2021 All rights register</p>
+       <p>RToblli</p>
+     </footer>
 
     </div>
   );
