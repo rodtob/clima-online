@@ -15,11 +15,11 @@ function App() {
 
             <section className='cards'>
 
-              <h3>Seleccioná la zona</h3>
+              <h3 className="titulo--section">Seleccioná la zona</h3>
               <article className="contBuscar">
-              <label className="left">País</label>
+              <label className="label left">País</label>
               <input className="elinput" placeholder="Seleccioná un país" />
-              <label className="left">Ciudad</label>
+              <label className="label left">Ciudad</label>
               <input className="elinput" placeholder="Seleccioná una ciudad" />
               <input className="submit" type='submit' value="BUSCAR"/>
               </article>
@@ -27,24 +27,24 @@ function App() {
 
 
             <section className='cards'>
-              <h3>Reporte</h3>
+              <h3 className="titulo--section">Reporte</h3>
               <article className='contReporte'>
 
                 <section className="columnaReporte left">
-                    <p>Pais</p>
-                    <p>Ciudad</p>
-                    <p>Dia</p>
-                    <p>soleado</p>
-                    <p>temperatura</p>
-                    <p>en farenhait</p>
+                    <p className="paisciudad">Pais</p>
+                    <p className="paisciudad">Ciudad</p>
+                    <p className='dia'>viernes</p>
+                    <p className="estado-dia">soleado</p>
+                    <p className='temperatura'>22</p>
+                    <p className='en-faren'>75</p>
 
                 </section>
 
                 <section className="columnaReporte right" >
                     <img src={sun} className="imagenClima"/>
-                    <p>Probabilidad de precipitaciones</p>
-                    <p>Humedad: </p>
-                    <p>Viento a: </p>
+                    <p className='detalles-reporte'>Probabilidad de precipitaciones</p>
+                    <p className='detalles-reporte'>Humedad: </p>
+                    <p className='detalles-reporte'>Viento a: </p>
                 </section>
             </article>
 
