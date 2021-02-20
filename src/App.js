@@ -1,13 +1,36 @@
 import sun from './assets/sun.svg'
+import {Component} from 'react';
 
 
-function App() {
+const key = 'ca39e07beb5a688b4912b59a38e08884'
+
+class App extends Component{
+  constructor(props){
+    super(props)
+    this.state={
+    }
+  }
+
+  
+  componentDidMount(){
+    const getClima = async()=>{
+      const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=Liverpool,uk&appid=${key}`)
+  
+      const respuesta = await apiCall.json()
+      console.log(respuesta)
+    }
+    
+    getClima()
+  }
+
+
+render() {
   return (
     <div className="App">
-      <navbar className='navBar'>
+      <nav className='navBar'>
         <p>logo</p>
         <p>login</p>
-      </navbar>
+      </nav>
      <main className="main"> 
      <h1 className='titulo'> SERVICIO DEL CLIMA</h1>
 
@@ -18,9 +41,9 @@ function App() {
               <h3 className="titulo--section">Seleccioná la zona</h3>
               <article className="contBuscar">
               <label className="label left">País</label>
-              <input className="elinput" placeholder="Seleccioná un país" />
+              <input className="elinput" type='text' placeholder="Seleccioná un país" />
               <label className="label left">Ciudad</label>
-              <input className="elinput" placeholder="Seleccioná una ciudad" />
+              <input className="elinput" type="text" placeholder="Seleccioná una ciudad" />
               <input className="submit" type='submit' value="BUSCAR"/>
               </article>
             </section>
@@ -82,6 +105,7 @@ function App() {
 
     </div>
   );
+}
 }
 
 export default App;
