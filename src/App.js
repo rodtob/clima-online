@@ -8,18 +8,24 @@ class App extends Component{
   constructor(props){
     super(props)
     this.state={
+      ciudad: '',
+      pais:'',
+      temperatura:'',
+      viento:''
     }
   }
 
   
   componentDidMount(){
     const getClima = async()=>{
-      const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=Liverpool,uk&appid=${key}`)
+      const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=Liverpool,uk&appid=${key}`)
   
       const respuesta = await apiCall.json()
       console.log(respuesta)
+      this.setState({
+        ciudad: respuesta.city.name
+      })
     }
-    
     getClima()
   }
 
@@ -55,7 +61,7 @@ render() {
 
                 <section className="columnaReporte left">
                     <p className="paisciudad">Pais</p>
-                    <p className="paisciudad">Ciudad</p>
+                    <p className="paisciudad">{this.state.ciudad}</p>
                     <p className='dia'>viernes</p>
                     <p className="estado-dia">soleado</p>
                     <p className='temperatura'>22</p>
