@@ -11,6 +11,7 @@ class App extends Component{
       ciudad: '',
       pais:'',
       temperatura:'',
+      humedad:'',
       viento:''
     }
   }
@@ -18,12 +19,16 @@ class App extends Component{
   
   componentDidMount(){
     const getClima = async()=>{
-      const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=Liverpool,uk&appid=${key}`)
+      const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=parana,ar&appid=${key}`)
   
       const respuesta = await apiCall.json()
       console.log(respuesta)
       this.setState({
-        ciudad: respuesta.city.name
+        ciudad: respuesta.city.name,
+        pais: respuesta.city.country,
+        temperatura: Math.floor((respuesta.list[0].main.temp)-273.15),
+        viento: respuesta.list[0].wind.speed,
+        humedad: respuesta.list[0].main.humidity
       })
     }
     getClima()
@@ -59,21 +64,22 @@ render() {
               <h3 className="titulo--section">Reporte</h3>
               <article className='contReporte'>
 
+
                 <section className="columnaReporte left">
-                    <p className="paisciudad">Pais</p>
+                    <p className="paisciudad">{this.state.pais}</p>
                     <p className="paisciudad">{this.state.ciudad}</p>
-                    <p className='dia'>viernes</p>
+                    <p className='dia'>el dia</p>
                     <p className="estado-dia">soleado</p>
-                    <p className='temperatura'>22</p>
-                    <p className='en-faren'>75</p>
+                    <p className='temperatura'>{Math.round(this.state.temperatura)}</p>
+                    <p className='en-faren'>{((this.state.temperatura * 9/5) + 32 ).toFixed(1)} F</p>
 
                 </section>
 
                 <section className="columnaReporte right" >
                     <img src={sun} className="imagenClima"/>
                     <p className='detalles-reporte'>Probabilidad de precipitaciones</p>
-                    <p className='detalles-reporte'>Humedad: </p>
-                    <p className='detalles-reporte'>Viento a: </p>
+                    <p className='detalles-reporte'>Humedad: {this.state.humedad} %</p>
+                    <p className='detalles-reporte'>Viento a: {this.state.viento} km/h </p>
                 </section>
             </article>
 
