@@ -39,7 +39,7 @@ html {
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  background-color:orange;
+  background-color: #f58855;
   padding-left: 2vh;
   padding-right: 2vh;
   height: 5vh;
@@ -54,7 +54,7 @@ html {
   width: 100%;
   font-size: 1rem;
   padding-bottom: 2vh;
-  border-bottom: orange 3px solid;
+  border-bottom: #f58855 3px solid;
 }
 
 .row{
@@ -72,7 +72,7 @@ html {
   display: flex;
   flex-direction: column;
   box-shadow: 2px 3px 3px 0px rgba(0, 0, 0, 0.75);
-  border:orange 2px solid;
+  border: #f58855 2px solid;
   padding: 2vh;
   padding-bottom: 4vh;
   /* margin-top: 1vh;  */
@@ -189,4 +189,11 @@ html {
 
 .detalles-reporte{
   font-size: .5rem;
+}
+
+.grados{
+  display: flex;
+  flex-direction: row;
+  font-size: .6rem;
+  padding: 1vh;
 }

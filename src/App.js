@@ -4,6 +4,11 @@ import {Component} from 'react';
 
 const key = 'ca39e07beb5a688b4912b59a38e08884'
 
+const dias= ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']
+
+const fecha = new Date();
+const eldia = fecha.getDay();
+
 class App extends Component{
   constructor(props){
     super(props)
@@ -12,28 +17,39 @@ class App extends Component{
       pais:'',
       temperatura:'',
       humedad:'',
-      viento:''
+      viento:'',
+      pop: 0,
+      dia: dias[eldia]
     }
-  }
+      
+      this.getClima = async(e)=>{
 
-  
-  componentDidMount(){
-    const getClima = async()=>{
-      const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=parana,ar&appid=${key}`)
-  
-      const respuesta = await apiCall.json()
-      console.log(respuesta)
-      this.setState({
-        ciudad: respuesta.city.name,
-        pais: respuesta.city.country,
-        temperatura: Math.floor((respuesta.list[0].main.temp)-273.15),
-        viento: respuesta.list[0].wind.speed,
-        humedad: respuesta.list[0].main.humidity
-      })
+        let pais = e.target.elements.pais.value
+        let ciudad= e.target.elements.ciudad.value
+        
+        console.log(pais, ciudad)
+
+        e.preventDefault()
+        const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${ciudad},${pais}&appid=${key}`)
+        
+        
+        const respuesta = await apiCall.json()
+        console.log(respuesta)
+        this.setState({
+          ciudad: respuesta.city.name,
+          pais: respuesta.city.country,
+          temperatura: Math.floor((respuesta.list[0].main.temp)-273.15),
+          viento: respuesta.list[0].wind.speed,
+          humedad: respuesta.list[0].main.humidity,
+          pop: respuesta.list[0].pop
+        })
+      }
+      
+      
+      
     }
-    getClima()
-  }
-
+    
+    
 
 render() {
   return (
@@ -47,16 +63,16 @@ render() {
 
     <article className='row'>
 
-            <section className='cards'>
+            <section onSubmit={this.getClima} className='cards'>
 
               <h3 className="titulo--section">Seleccioná la zona</h3>
-              <article className="contBuscar">
-              <label className="label left">País</label>
-              <input className="elinput" type='text' placeholder="Seleccioná un país" />
-              <label className="label left">Ciudad</label>
-              <input className="elinput" type="text" placeholder="Seleccioná una ciudad" />
-              <input className="submit" type='submit' value="BUSCAR"/>
-              </article>
+              <form onSubmit={this.getClima}  className="contBuscar">
+                <label className="label left">País</label>
+                <input className="elinput" name='pais' type='text' placeholder="Seleccioná un país" />
+                <label className="label left">Ciudad</label>
+                <input className="elinput" name='ciudad' type="text" placeholder="Seleccioná una ciudad" />
+                <input className="submit" type='submit' value="BUSCAR"/>
+              </form>
             </section>
 
 
@@ -68,16 +84,19 @@ render() {
                 <section className="columnaReporte left">
                     <p className="paisciudad">{this.state.pais}</p>
                     <p className="paisciudad">{this.state.ciudad}</p>
-                    <p className='dia'>el dia</p>
-                    <p className="estado-dia">soleado</p>
-                    <p className='temperatura'>{Math.round(this.state.temperatura)}</p>
-                    <p className='en-faren'>{((this.state.temperatura * 9/5) + 32 ).toFixed(1)} F</p>
+                    <p className='dia'>{this.state.dia}</p>
+                    <p className="estado-dia">soleado</p>   
+                    <section className='grados'>
+                      <p className='temperatura'>{Math.round(this.state.temperatura)}</p>
+                      <p>°C</p>
+                    </section>
+                    <p className='en-faren'>{((this.state.temperatura * 9/5) + 32 ).toFixed(1)} °F</p>
 
                 </section>
 
                 <section className="columnaReporte right" >
                     <img src={sun} className="imagenClima"/>
-                    <p className='detalles-reporte'>Probabilidad de precipitaciones</p>
+                    <p className='detalles-reporte'>Probabilidad de precipitaciones: {this.state.pop*100}%</p>
                     <p className='detalles-reporte'>Humedad: {this.state.humedad} %</p>
                     <p className='detalles-reporte'>Viento a: {this.state.viento} km/h </p>
                 </section>
