@@ -15,22 +15,21 @@ class App extends Component{
     this.state={
       ciudad: '',
       pais:'',
-      temperatura:'',
+      temperatura:0,
       humedad:'',
       viento:'',
       pop: 0,
-      dia: dias[eldia]
+      dia: dias[eldia],
+      descripcion: '-----'
     }
       
       this.getClima = async(e)=>{
 
         let pais = e.target.elements.pais.value
         let ciudad= e.target.elements.ciudad.value
-        
-        console.log(pais, ciudad)
 
         e.preventDefault()
-        const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${ciudad},${pais}&appid=${key}`)
+        const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${ciudad},${pais}&appid=${key}&lang=sp`)
         
         
         const respuesta = await apiCall.json()
@@ -41,7 +40,8 @@ class App extends Component{
           temperatura: Math.floor((respuesta.list[0].main.temp)-273.15),
           viento: respuesta.list[0].wind.speed,
           humedad: respuesta.list[0].main.humidity,
-          pop: respuesta.list[0].pop
+          pop: respuesta.list[0].pop,
+          descripcion: respuesta.list[0].weather[0].description
         })
       }
       
@@ -85,7 +85,7 @@ render() {
                     <p className="paisciudad">{this.state.pais}</p>
                     <p className="paisciudad">{this.state.ciudad}</p>
                     <p className='dia'>{this.state.dia}</p>
-                    <p className="estado-dia">soleado</p>   
+                    <p className="estado-dia">{this.state.descripcion}</p>   
                     <section className='grados'>
                       <p className='temperatura'>{Math.round(this.state.temperatura)}</p>
                       <p>°C</p>

@@ -171,7 +171,8 @@ html {
   padding-top: 1vh;
 }
 .estado-dia{
-  font-size: .9rem;
+  font-size: .5rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 .temperatura{
@@ -184,7 +185,8 @@ html {
 
 .paisciudad{
   padding-top: 1vh;
-  opacity: .4;
+  font-size: .5rem;
+  opacity: .6;
 }
 
 .detalles-reporte{
@@ -195,5 +197,6 @@ html {
   display: flex;
   flex-direction: row;
   font-size: .6rem;
-  padding: 1vh;
+  padding-right: 1vh;
+  padding-top: 1vh;
 }
