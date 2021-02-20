@@ -1,13 +1,21 @@
 import sun from './assets/sun.svg'
 import {Component} from 'react';
+import CardDia from './CardDia'
 
 
 const key = 'ca39e07beb5a688b4912b59a38e08884'
 
-const dias= ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']
+const semana= ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']
 
 const fecha = new Date();
 const eldia = fecha.getDay();
+let semanaActual= []
+
+const saberSemana =(eldia)=>{
+  for (eldia; eldia < 11; eldia++) {
+    semanaActual.push(semana[(eldia+1) % 7]);
+  }
+}
 
 class App extends Component{
   constructor(props){
@@ -19,10 +27,11 @@ class App extends Component{
       humedad:'',
       viento:'',
       pop: 0,
-      dia: dias[eldia],
-      descripcion: '-----'
+      dia: semana[eldia],
+      descripcion: '-----',
+      semana:''
     }
-      
+      saberSemana(eldia)
       this.getClima = async(e)=>{
 
         let pais = e.target.elements.pais.value
@@ -33,7 +42,9 @@ class App extends Component{
         
         
         const respuesta = await apiCall.json()
-        console.log(respuesta)
+  
+        const [,,,,,,, primero,,,,,,,,segundo,,,,,,,,tercero,,,,,,,,cuarto,,,,,,,,quinto] = respuesta.list
+
         this.setState({
           ciudad: respuesta.city.name,
           pais: respuesta.city.country,
@@ -41,7 +52,8 @@ class App extends Component{
           viento: respuesta.list[0].wind.speed,
           humedad: respuesta.list[0].main.humidity,
           pop: respuesta.list[0].pop,
-          descripcion: respuesta.list[0].weather[0].description
+          descripcion: respuesta.list[0].weather[0].description,
+          semana: [primero, segundo, tercero, cuarto, quinto]
         })
       }
       
@@ -107,26 +119,16 @@ render() {
     </article>
 
      <section className='row'>
-       <article>
-         <h4>Lunes</h4>
-         <img className="imagenClima" src={sun}/>
-        </article>
-        <article>
-         <h4>Lunes</h4>
-         <img className="imagenClima" src={sun}/>
-        </article>
-        <article>
-         <h4>Lunes</h4>
-         <img className="imagenClima" src={sun}/>
-        </article>
-        <article>
-         <h4>Lunes</h4>
-         <img className="imagenClima" src={sun}/>
-        </article>
-        <article>
-         <h4>Lunes</h4>
-         <img className="imagenClima" src={sun}/>
-        </article>
+
+       {
+        semanaActual.slice(0,5).map((eldia,i) => {
+            return (
+              <CardDia imagen={sun} eldia={eldia} key={i} temperatura={ typeof( this.state.semana[i]) != 'undefined'?
+                Math.floor((this.state.semana[i].main.temp)-273.15):''}/>
+              )
+        })
+        } 
+    
      </section>
      </main>
      <footer className="navBar footer">
