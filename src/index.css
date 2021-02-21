@@ -152,6 +152,12 @@ html {
   transition: 0.3s all;
 }
 
+.submit:hover{
+  background-color: #80746e;
+  color: #f58855;
+  font-size: .75rem;
+}
+
 .titulo--section{
   border-bottom: rgb(14, 40, 112) 2px solid;
   padding: 1vh;
@@ -203,12 +209,15 @@ html {
 
 .undia{
   display: flex;
+  width: 20%;
   flex-direction: column;
   background-color: rgb(177, 177, 177);
   margin:.5vh;
   padding:1vh;
   font-weight: lighter;
   font-size: .5rem;
+  height: 18vh;
+  justify-content: space-around;
 }
 
 .undia--title{
