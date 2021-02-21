@@ -27,8 +27,8 @@ class App extends Component{
       ciudad: '',
       pais:'',
       temperatura:0,
-      humedad:'',
-      viento:'',
+      humedad:0,
+      viento:0,
       pop: 0,
       dia: semana[eldia],
       descripcion: '-----',
@@ -48,7 +48,6 @@ class App extends Component{
         const respuesta = await apiCall.json()
   
         const [,,,,,,, primero,,,,,,,,segundo,,,,,,,,tercero,,,,,,,,cuarto,,,,,,,,quinto] = respuesta.list
-        console.log(primero)
         this.setState({
           ciudad: respuesta.city.name,
           pais: respuesta.city.country,
@@ -61,10 +60,37 @@ class App extends Component{
           semana: [primero, segundo, tercero, cuarto, quinto]
         })
       }
-         
+        
     }
-    
-    
+
+      componentDidMount(){
+        let data =localStorage.getItem('usuario')
+        if (data){
+          console.log('hay usuario')
+          let dataparse =JSON.parse(data)
+          this.setState({ciudad:dataparse.ciudad,
+             pais:dataparse.pais, 
+             temperatura:dataparse.temperatura,
+             viento: dataparse.viento,
+             humedad:dataparse.humedad,
+             pop:dataparse.pop,
+             descripcion:dataparse.descripcion,
+             icon:dataparse.icon,
+             semana:dataparse.semana
+            })
+          
+        }else{
+          console.log('no hay usuario')
+        }
+      }
+
+      componentDidUpdate(prevState){
+        if(prevState !== this.state) {
+          localStorage.setItem('usuario', JSON.stringify(this.state))
+        }
+      }
+
+
 
 render() {
   return (
@@ -108,8 +134,8 @@ render() {
               {
                 semanaActual.slice(0,5).map((eldia,i) => {
                     return (
-                      <CardDia eldia={eldia} imagen={typeof( this.state.semana[i]) != 'undefined'?`http://openweathermap.org/img/wn/${this.state.semana[i].weather[0].icon}@2x.png`:''} key={i} temperatura={ typeof( this.state.semana[i]) != 'undefined'?
-                        Math.floor((this.state.semana[i].main.temp)-273.15):''} />
+                      <CardDia eldia={eldia} imagen={typeof( this.state.semana[i]) != 'undefined'?`http://openweathermap.org/img/wn/${this.state.semana[i].weather[0].icon}@2x.png`:'http://openweathermap.org/img/wn/01d@2x.png'} key={i} temperatura={ typeof( this.state.semana[i]) != 'undefined'?
+                        Math.floor((this.state.semana[i].main.temp)-273.15):'0'} />
                       )
                 })
                 } 
