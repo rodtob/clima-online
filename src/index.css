@@ -233,13 +233,14 @@ html {
 }
 
 .login{
-  width: 10%;
+  width: 2  0%;
   font-size: .5rem;
   color: white;
   border: white 1px solid;
   padding: 1vh;
   border-radius: 10px;
   margin: 1.5vh;
+  cursor: pointer;
 }
 
 .logoNombre{
@@ -249,4 +250,27 @@ html {
   font-weight: lighter;
   opacity: .8;
   font-size: .6rem;
+}
+
+.login--form{
+  color:coral;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: .7rem;
+  height: 25vh;
+}
+
+.ContenedorLogin{
+  position: absolute;
+  top: 10%;
+  right: 20%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  padding: 2vh;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 2px 3px 3px 0px rgba(0, 0, 0, 0.75);
 }

@@ -64,7 +64,7 @@ class App extends Component{
     }
 
       componentDidMount(){
-        let data =localStorage.getItem('usuario')
+        let data =localStorage.getItem('uTiempo')
         if (data){
           console.log('hay usuario')
           let dataparse =JSON.parse(data)
@@ -86,7 +86,7 @@ class App extends Component{
 
       componentDidUpdate(prevState){
         if(prevState !== this.state) {
-          localStorage.setItem('usuario', JSON.stringify(this.state))
+          localStorage.setItem('uTiempo', JSON.stringify(this.state))
         }
       }
 
