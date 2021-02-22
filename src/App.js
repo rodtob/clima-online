@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React,{useState, useEffect} from 'react'
 import NavBar from './NavBar'
 import CardLeft from './CardLeft'
 import CardRight from './CardRight'
@@ -8,7 +8,7 @@ import Footer from './Footer'
 
 const key = 'ca39e07beb5a688b4912b59a38e08884'
 
-const semana= ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']
+const dias_semana= ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']
 
 const fecha = new Date();
 const eldia = fecha.getDay();
@@ -16,102 +16,76 @@ let semanaActual= []
 
 const saberSemana =(eldia)=>{
   for (eldia; eldia < 11; eldia++) {
-    semanaActual.push(semana[(eldia+1) % 7]);
+    semanaActual.push(dias_semana[(eldia+1) % 7]);
   }
 }
 
-class App extends Component{
-  constructor(props){
-    super(props)
-    this.state={
-      ciudad: '',
-      pais:'',
-      temperatura:0,
-      humedad:0,
-      viento:0,
-      pop: 0,
-      dia: semana[eldia],
-      descripcion: '-----',
-      icono: '01d',
-      semana:'',
-      usuario: ''
-    }
+const App = () => {
+
+  const [ciudad, setCiudad] = useState('')
+  const [pais, setPais] = useState('')
+  const [temperatura, setTemperatura] = useState(0)
+  const [humedad, setHumedad] = useState(0)
+  const [viento, setViento] = useState(0)
+  const [pop, setPop] = useState(0)
+  const [dia, setDia] = useState(dias_semana[eldia])
+  const [descripcion, setDescripcion] = useState('-----')
+  const [icono, setIcono] = useState('01d')
+  const [semana, setSemana] = useState('')
+  const [usuario, setUsuario] = useState('')
+
       saberSemana(eldia)
-      this.getClima = async(e)=>{
+     
 
-        let pais = e.target.elements.pais.value
-        let ciudad= e.target.elements.ciudad.value
-
+      const getClima = (e)=>{
         e.preventDefault()
-        const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${ciudad},${pais}&appid=${key}&lang=sp`)
-        
-        
-        const respuesta = await apiCall.json()
+        setPais(e.target.elements.pais.value)
+        setCiudad(e.target.elements.ciudad.value)
+      }
+
   
-        const [,,,,,,, primero,,,,,,,,segundo,,,,,,,,tercero,,,,,,,,cuarto,,,,,,,,quinto] = respuesta.list
-        
-        this.setState({
-          ciudad: respuesta.city.name,
-          pais: respuesta.city.country,
-          temperatura: Math.floor((respuesta.list[0].main.temp)-273.15),
-          viento: respuesta.list[0].wind.speed,
-          humedad: respuesta.list[0].main.humidity,
-          pop: respuesta.list[0].pop,
-          descripcion: respuesta.list[0].weather[0].description,
-          icono: respuesta.list[0].weather[0].icon,
-          semana: [primero, segundo, tercero, cuarto, quinto]
-        })
-      }
-        
-    }
 
-      componentDidMount(){
-          //si hay un usuario activo, leer info de usario activo, sino default
-
-          let usuarioActivo = sessionStorage.getItem('usuarioActivo')
-
+        useEffect(async()=>{
+         
       
+  
+          if(pais){
 
-            let data =localStorage.getItem('uTiempo')
-
-            let dataparse =JSON.parse(data)
-      
-            if (dataparse && dataparse != null){
-              this.setState({ciudad:dataparse.ciudad,
-                pais:dataparse.pais, 
-                temperatura:dataparse.temperatura,
-                viento: dataparse.viento,
-                humedad:dataparse.humedad,
-                pop:dataparse.pop,
-                descripcion:dataparse.descripcion,
-                icon:dataparse.icon,
-                semana:dataparse.semana
-              })
-            }
           
-      } 
+          const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${ciudad},${pais}&appid=${key}&lang=sp`)
+          
+          
+          const respuesta = await apiCall.json()
+    
+          const [,,,,,,, primero,,,,,,,,segundo,,,,,,,,tercero,,,,,,,,cuarto,,,,,,,,quinto] = respuesta.list
+          
+      
+          
+          setCiudad(respuesta.city.name)
+          setPais(respuesta.city.country)
+          setTemperatura(Math.floor((respuesta.list[0].main.temp)-273.15))
+          setViento(respuesta.list[0].wind.speed)
+          setHumedad(respuesta.list[0].main.humidity)
+          setPop(respuesta.list[0].pop)
+          setDescripcion(respuesta.list[0].weather[0].description)
+          setIcono(respuesta.list[0].weather[0].icon)
+          setSemana([primero, segundo, tercero, cuarto, quinto])
+        }}, [pais, ciudad] )
 
-      componentDidUpdate(prevState){
-        if(prevState !== this.state) {
-          localStorage.setItem('uTiempo', JSON.stringify(this.state))
-        }
-      }
 
 
-
-render() {
   return (
     <div className="App">
-        <NavBar/>
+        <NavBar usuario={usuario}/>
      <main className="main"> 
      <h1 className='titulo'> SERVICIO DEL CLIMA</h1>
 
           <article className='row'>
 
-                  <section onSubmit={this.getClima} className='cards'>
+                  <section className='cards'>
 
                     <h3 className="titulo--section">Seleccioná la zona</h3>
-                    <form onSubmit={this.getClima}  className="contBuscar">
+                    <form onSubmit={getClima}   className="contBuscar">
                       <label className="label left">País</label>
                       <input className="elinput" required name='pais' type='text' placeholder="Seleccioná un país" />
                       <label className="label left">Ciudad</label>
@@ -125,10 +99,10 @@ render() {
                     <h3 className="titulo--section">Reporte</h3>
                       <article className='contReporte'>
 
-                        <CardLeft pais ={this.state.pais} ciudad={this.state.ciudad} dia={this.state.dia}
-                        descripcion={this.state.descripcion} temperatura={this.state.temperatura}/>
+                        <CardLeft pais ={pais} ciudad={ciudad} dia={dia}
+                        descripcion={descripcion} temperatura={temperatura}/>
 
-                        <CardRight pop={this.state.pop} humedad={this.state.humedad} viento={this.state.viento} icono={this.state.icono} />
+                        <CardRight pop={pop} humedad={humedad} viento={viento} icono={icono} />
 
                       </article>
 
@@ -136,13 +110,13 @@ render() {
                   </section>
           </article>
 
-            <section className='row'>
+           <section className='row'>
 
               {
                 semanaActual.slice(0,5).map((eldia,i) => {
                     return (
-                      <CardDia eldia={eldia} imagen={typeof( this.state.semana[i]) != 'undefined'?`http://openweathermap.org/img/wn/${this.state.semana[i].weather[0].icon}@2x.png`:'http://openweathermap.org/img/wn/01d@2x.png'} key={i} temperatura={ typeof( this.state.semana[i]) != 'undefined'?
-                        Math.floor((this.state.semana[i].main.temp)-273.15):'0'} />
+                      <CardDia eldia={eldia} imagen={typeof( semana[i]) != 'undefined'?`http://openweathermap.org/img/wn/${semana[i].weather[0].icon}@2x.png`:'http://openweathermap.org/img/wn/01d@2x.png'} key={i} temperatura={ typeof( semana[i]) != 'undefined'?
+                        Math.floor((semana[i].main.temp)-273.15):'0'} />
                       )
                 })
                 } 
@@ -154,6 +128,6 @@ render() {
     </div>
   );
 }
-}
+
 
 export default App;
