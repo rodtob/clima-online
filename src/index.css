@@ -274,3 +274,10 @@ html {
   background-color: white;
   box-shadow: 2px 3px 3px 0px rgba(0, 0, 0, 0.75);
 }
+
+.laX{
+  all: unset;
+  cursor: pointer;
+  width: 70%;
+  font-size: .5rem;
+}

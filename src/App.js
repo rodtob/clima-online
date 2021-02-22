@@ -33,7 +33,8 @@ class App extends Component{
       dia: semana[eldia],
       descripcion: '-----',
       icono: '01d',
-      semana:''
+      semana:'',
+      usuario: ''
     }
       saberSemana(eldia)
       this.getClima = async(e)=>{
@@ -48,6 +49,7 @@ class App extends Component{
         const respuesta = await apiCall.json()
   
         const [,,,,,,, primero,,,,,,,,segundo,,,,,,,,tercero,,,,,,,,cuarto,,,,,,,,quinto] = respuesta.list
+        
         this.setState({
           ciudad: respuesta.city.name,
           pais: respuesta.city.country,
@@ -64,25 +66,30 @@ class App extends Component{
     }
 
       componentDidMount(){
-        let data =localStorage.getItem('uTiempo')
-        if (data){
-          console.log('hay usuario')
-          let dataparse =JSON.parse(data)
-          this.setState({ciudad:dataparse.ciudad,
-             pais:dataparse.pais, 
-             temperatura:dataparse.temperatura,
-             viento: dataparse.viento,
-             humedad:dataparse.humedad,
-             pop:dataparse.pop,
-             descripcion:dataparse.descripcion,
-             icon:dataparse.icon,
-             semana:dataparse.semana
-            })
+          //si hay un usuario activo, leer info de usario activo, sino default
+
+          let usuarioActivo = sessionStorage.getItem('usuarioActivo')
+
+      
+
+            let data =localStorage.getItem('uTiempo')
+
+            let dataparse =JSON.parse(data)
+      
+            if (dataparse && dataparse != null){
+              this.setState({ciudad:dataparse.ciudad,
+                pais:dataparse.pais, 
+                temperatura:dataparse.temperatura,
+                viento: dataparse.viento,
+                humedad:dataparse.humedad,
+                pop:dataparse.pop,
+                descripcion:dataparse.descripcion,
+                icon:dataparse.icon,
+                semana:dataparse.semana
+              })
+            }
           
-        }else{
-          console.log('no hay usuario')
-        }
-      }
+      } 
 
       componentDidUpdate(prevState){
         if(prevState !== this.state) {
