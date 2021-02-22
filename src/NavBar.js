@@ -5,7 +5,7 @@ import Login from './Login'
 
 
 
-const NavBar =( {usuario})=> {
+const NavBar =( {usuario, pais, ciudad})=> {
 
  const [mostrarLogin, setMostrarLogin] = useState(false)
 
@@ -27,7 +27,7 @@ const NavBar =( {usuario})=> {
         </section>
         <p className='login' onClick={onButtonClick}>{usuario?usuario:'iniciar sesión'}</p>
       </nav>
-      {mostrarLogin?<div className='ContenedorLogin'><Login/><button className='laX' onClick={onButtonClick}>X</button></div>:null}
+      {mostrarLogin?<div className='ContenedorLogin'><Login pais={pais} ciudad={ciudad}/><button className='laX' onClick={onButtonClick}>X</button></div>:null}
       </React.Fragment>
     )
 }

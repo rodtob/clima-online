@@ -6,7 +6,7 @@ import CardDia from './CardDia'
 import Footer from './Footer'
 
 
-const key = 'ca39e07beb5a688b4912b59a38e08884'
+const key = 'e9049373eb5752e491d66bbedd958627'
 
 const dias_semana= ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']
 
@@ -22,8 +22,8 @@ const saberSemana =(eldia)=>{
 
 const App = () => {
 
-  const [ciudad, setCiudad] = useState('')
-  const [pais, setPais] = useState('')
+  const [ciudad, setCiudad] = useState(false)
+  const [pais, setPais] = useState(false)
   const [temperatura, setTemperatura] = useState(0)
   const [humedad, setHumedad] = useState(0)
   const [viento, setViento] = useState(0)
@@ -43,40 +43,45 @@ const App = () => {
         setCiudad(e.target.elements.ciudad.value)
       }
 
-  
-
         useEffect(async()=>{
          
-      
-  
-          if(pais){
+          let data = localStorage.getItem('ultimaBusqueda')
+          let dataParse = JSON.parse(data)
 
-          
-          const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${ciudad},${pais}&appid=${key}&lang=sp`)
-          
-          
-          const respuesta = await apiCall.json()
-    
-          const [,,,,,,, primero,,,,,,,,segundo,,,,,,,,tercero,,,,,,,,cuarto,,,,,,,,quinto] = respuesta.list
-          
-      
-          
-          setCiudad(respuesta.city.name)
-          setPais(respuesta.city.country)
-          setTemperatura(Math.floor((respuesta.list[0].main.temp)-273.15))
-          setViento(respuesta.list[0].wind.speed)
-          setHumedad(respuesta.list[0].main.humidity)
-          setPop(respuesta.list[0].pop)
-          setDescripcion(respuesta.list[0].weather[0].description)
-          setIcono(respuesta.list[0].weather[0].icon)
-          setSemana([primero, segundo, tercero, cuarto, quinto])
-        }}, [pais, ciudad] )
+            if(data){
+              setPais(dataParse.pais)
+              setCiudad(dataParse.ciudad)
+            }
+
+            if(pais){
+            
+              const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${ciudad},${pais}&appid=${key}&lang=sp`)
+              
+              console.log(apiCall)
+              const respuesta = await apiCall.json()
+            
+
+              const [,,,,,,, primero,,,,,,,,segundo,,,,,,,,tercero,,,,,,,,cuarto,,,,,,,,quinto] = respuesta.list
+              
+                console.log('esta refresh')
+                localStorage.setItem('ultimaBusqueda', JSON.stringify({pais,ciudad}))
+              
+              setCiudad(respuesta.city.name)
+              setPais(respuesta.city.country)
+              setTemperatura(Math.floor((respuesta.list[0].main.temp)-273.15))
+              setViento(respuesta.list[0].wind.speed)
+              setHumedad(respuesta.list[0].main.humidity)
+              setPop(respuesta.list[0].pop)
+              setDescripcion(respuesta.list[0].weather[0].description)
+              setIcono(respuesta.list[0].weather[0].icon)
+              setSemana([primero, segundo, tercero, cuarto, quinto])
+            }}, [pais, ciudad] )
 
 
 
   return (
     <div className="App">
-        <NavBar usuario={usuario}/>
+        <NavBar usuario={usuario} pais={pais} ciudad={ciudad}/>
      <main className="main"> 
      <h1 className='titulo'> SERVICIO DEL CLIMA</h1>
 
