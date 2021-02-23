@@ -64,7 +64,7 @@ const App = () => {
           if(pais){
 
               
-                const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${ciudad},${pais}&appid=${key}&lang=sp`)
+                const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${ciudad},${pais}&appid=${key}&lang=sp`)
                 
                 try{
 
