@@ -242,6 +242,12 @@ html {
   border-radius: 10px;
   margin: 1.5vh;
   cursor: pointer;
+  transition: .4s all;
+}
+
+.login:hover{
+  background-color:wheat;
+  color: coral;
 }
 
 .logoNombre{
