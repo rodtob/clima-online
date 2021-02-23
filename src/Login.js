@@ -15,7 +15,7 @@ const Login =(props)=> {
         <label>e-mail</label>
         <input type='email' className='elinput' name='email' placeholder='tu mail'/>
         <label>Contraseña</label>
-        <input type='password' name='pass' placeholder='password'/>
+        <input type='password' required className='elinput' name='pass' placeholder='password'/>
         <input type='submit' className= 'submit'value='LOGIN'/>
     </form>
 
