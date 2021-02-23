@@ -32,8 +32,8 @@ const App = () => {
   const [descripcion, setDescripcion] = useState('-----')
   const [icono, setIcono] = useState('01d')
   const [semana, setSemana] = useState('')
-  const [usuario, setUsuario] = useState('')
 
+  
       saberSemana(eldia)
      
 
@@ -43,45 +43,53 @@ const App = () => {
         setCiudad(e.target.elements.ciudad.value)
       }
 
-        useEffect(async()=>{
-         
-          let data = localStorage.getItem('ultimaBusqueda')
-          let dataParse = JSON.parse(data)
 
-            if(data){
+      useEffect(()=>{
+            let data = localStorage.getItem('ultimoClima')
+            let dataParse = JSON.parse(data)
+            console.log(dataParse)
+            if(dataParse){
               setPais(dataParse.pais)
               setCiudad(dataParse.ciudad)
-            }
-
-            if(pais){
+          }
             
-              const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${ciudad},${pais}&appid=${key}&lang=sp`)
-              
-              console.log(apiCall)
-              const respuesta = await apiCall.json()
-            
+          },[])
 
-              const [,,,,,,, primero,,,,,,,,segundo,,,,,,,,tercero,,,,,,,,cuarto,,,,,,,,quinto] = respuesta.list
+
+        
+        useEffect(async()=>{
+        
+          if(pais){
+
               
-                console.log('esta refresh')
-                localStorage.setItem('ultimaBusqueda', JSON.stringify({pais,ciudad}))
+                const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${ciudad},${pais}&appid=${key}&lang=sp`)
+                
+        
+                const respuesta = await apiCall.json()
               
-              setCiudad(respuesta.city.name)
-              setPais(respuesta.city.country)
-              setTemperatura(Math.floor((respuesta.list[0].main.temp)-273.15))
-              setViento(respuesta.list[0].wind.speed)
-              setHumedad(respuesta.list[0].main.humidity)
-              setPop(respuesta.list[0].pop)
-              setDescripcion(respuesta.list[0].weather[0].description)
-              setIcono(respuesta.list[0].weather[0].icon)
-              setSemana([primero, segundo, tercero, cuarto, quinto])
-            }}, [pais, ciudad] )
+
+                const [,,,,,,, primero,,,,,,,,segundo,,,,,,,,tercero,,,,,,,,cuarto,,,,,,,,quinto] = respuesta.list
+                
+                  console.log('esta refresh')
+                
+                localStorage.setItem('ultimoClima', JSON.stringify({pais, ciudad}))
+                
+                setCiudad(respuesta.city.name)
+                setPais(respuesta.city.country)
+                setTemperatura(Math.floor((respuesta.list[0].main.temp)-273.15))
+                setViento(respuesta.list[0].wind.speed)
+                setHumedad(respuesta.list[0].main.humidity)
+                setPop(respuesta.list[0].pop)
+                setDescripcion(respuesta.list[0].weather[0].description)
+                setIcono(respuesta.list[0].weather[0].icon)
+                setSemana([primero, segundo, tercero, cuarto, quinto])
+              }}, [pais, ciudad] )
 
 
 
   return (
     <div className="App">
-        <NavBar usuario={usuario} pais={pais} ciudad={ciudad}/>
+        <NavBar  pais={pais} ciudad={ciudad}/>
      <main className="main"> 
      <h1 className='titulo'> SERVICIO DEL CLIMA</h1>
 
@@ -92,9 +100,9 @@ const App = () => {
                     <h3 className="titulo--section">Seleccioná la zona</h3>
                     <form onSubmit={getClima}   className="contBuscar">
                       <label className="label left">País</label>
-                      <input className="elinput" required name='pais' type='text' placeholder="Seleccioná un país" />
+                      <input className="elinput" required name='pais' pattern="[a-zA-Z0-9\s]+" type='text' placeholder="Seleccioná un país" />
                       <label className="label left">Ciudad</label>
-                      <input className="elinput" required name='ciudad' type="text" placeholder="Seleccioná una ciudad" />
+                      <input className="elinput" required name='ciudad' pattern="[a-zA-Z0-9\s]+" type="text" placeholder="Seleccioná una ciudad" />
                       <input className="submit" type='submit' value="BUSCAR"/>
                     </form>
                   </section>
