@@ -27,7 +27,7 @@ html {
 
 .main{
   display: flex;
-  width: 75vw;
+  width: 60vw;
   flex-direction: column;
   align-items: center;
   min-height: 90vh;
@@ -119,6 +119,7 @@ html {
   background-color: black;
   color: white;
   font-size: .5rem;
+  height: 5vh;
 }
 
 .elinput{
@@ -130,7 +131,7 @@ html {
   text-align: left;
   border: none;
   background-image: none;
-  background-color: transparent;
+  background-color: rgba(248, 232, 226, 0.932);
   box-shadow: none;
   border-bottom: white solid 1px;
 }
@@ -233,7 +234,7 @@ html {
 }
 
 .login{
-  width: 2  0%;
+  width: 15%;
   font-size: .5rem;
   color: white;
   border: white 1px solid;
@@ -267,9 +268,10 @@ html {
   top: 10%;
   right: 20%;
   z-index: 3;
+  width: 20%;
   display: flex;
   align-items: center;
-  padding: 2vh;
+  padding: 1vh;
   flex-direction: column;
   background-color: white;
   box-shadow: 2px 3px 3px 0px rgba(0, 0, 0, 0.75);
@@ -279,9 +281,10 @@ html {
   all: unset;
   cursor: pointer;
   width: 70%;
-  font-size: .5rem;
+  font-size: .7rem;
 }
 
 .disable{
   display: none;
 }
+

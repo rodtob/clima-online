@@ -1,23 +1,22 @@
-const Login =(pais, ciudad)=> {
+const Login =(props)=> {
    
         const alSubmit = (e)=>{
             e.preventDefault()
 
             let email = e.target.elements.email.value
-
-            localStorage.setItem(email, JSON.stringify({pais:pais,ciudad:ciudad}))
             sessionStorage.setItem('usuarioActivo', email)
+            props.onChange(false)
             }
       
     
     return(
 
-    <form onSubmit={alSubmit} className='login--form'>
+    <form onSubmit={alSubmit}  className='login--form'>
         <label>e-mail</label>
-        <input type='email' name='email' placeholder='tu mail'/>
-        {/* <label>Contraseña</label>
-        <input type='password' name='pass' placeholder='password'/> */}
-        <input type='submit'value='login'/>
+        <input type='email' className='elinput' name='email' placeholder='tu mail'/>
+        <label>Contraseña</label>
+        <input type='password' name='pass' placeholder='password'/>
+        <input type='submit' className= 'submit'value='LOGIN'/>
     </form>
 
     )

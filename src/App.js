@@ -5,6 +5,8 @@ import CardRight from './CardRight'
 import CardDia from './CardDia'
 import Footer from './Footer'
 
+import swal from 'sweetalert'
+
 
 const key = 'e9049373eb5752e491d66bbedd958627'
 
@@ -33,7 +35,7 @@ const App = () => {
   const [icono, setIcono] = useState('01d')
   const [semana, setSemana] = useState('')
 
-  
+    
       saberSemana(eldia)
      
 
@@ -47,7 +49,7 @@ const App = () => {
       useEffect(()=>{
             let data = localStorage.getItem('ultimoClima')
             let dataParse = JSON.parse(data)
-            console.log(dataParse)
+           
             if(dataParse){
               setPais(dataParse.pais)
               setCiudad(dataParse.ciudad)
@@ -64,32 +66,36 @@ const App = () => {
               
                 const apiCall = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${ciudad},${pais}&appid=${key}&lang=sp`)
                 
-        
-                const respuesta = await apiCall.json()
-              
+                try{
 
-                const [,,,,,,, primero,,,,,,,,segundo,,,,,,,,tercero,,,,,,,,cuarto,,,,,,,,quinto] = respuesta.list
-                
-                  console.log('esta refresh')
-                
-                localStorage.setItem('ultimoClima', JSON.stringify({pais, ciudad}))
-                
-                setCiudad(respuesta.city.name)
-                setPais(respuesta.city.country)
-                setTemperatura(Math.floor((respuesta.list[0].main.temp)-273.15))
-                setViento(respuesta.list[0].wind.speed)
-                setHumedad(respuesta.list[0].main.humidity)
-                setPop(respuesta.list[0].pop)
-                setDescripcion(respuesta.list[0].weather[0].description)
-                setIcono(respuesta.list[0].weather[0].icon)
-                setSemana([primero, segundo, tercero, cuarto, quinto])
-              }}, [pais, ciudad] )
+                  const respuesta = await apiCall.json()
+                  
+                  
+                  
+                  const [,,,,,,, primero,,,,,,,,segundo,,,,,,,,tercero,,,,,,,,cuarto,,,,,,,,quinto] = respuesta.list
+                  
+                  
+                  localStorage.setItem('ultimoClima', JSON.stringify({pais, ciudad}))
+                  
+                  setCiudad(respuesta.city.name)
+                  setPais(respuesta.city.country)
+                  setTemperatura(Math.floor((respuesta.list[0].main.temp)-273.15))
+                  setViento(respuesta.list[0].wind.speed)
+                  setHumedad(respuesta.list[0].main.humidity)
+                  setPop(respuesta.list[0].pop)
+                  setDescripcion(respuesta.list[0].weather[0].description)
+                  setIcono(respuesta.list[0].weather[0].icon)
+                  setSemana([primero, segundo, tercero, cuarto, quinto])
+                } catch(err){
+                  swal({title:'Esa ciudad no existe', icono:'error', button:'aceptar'})
+                }
+                }}, [pais, ciudad] )
 
 
 
   return (
     <div className="App">
-        <NavBar  pais={pais} ciudad={ciudad}/>
+        <NavBar/>
      <main className="main"> 
      <h1 className='titulo'> SERVICIO DEL CLIMA</h1>
 
