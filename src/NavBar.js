@@ -29,9 +29,9 @@ const NavBar =()=> {
       <nav className='navBar'>
         <section className='logoNombre'>
           <img src={mundito} alt='logo' className='logo'/>
-          <p>CLIMA ONLINE</p>
+          <li className='nApp'>CLIMA ONLINE</li>
         </section>
-        <p className='login' onClick={onButtonClick}>{usuarioActivo?usuarioActivo:'iniciar sesión'}</p>
+        <li className='login' onClick={onButtonClick}>{usuarioActivo?usuarioActivo:'iniciar sesión'}</li>
       </nav>
       {mostrarLogin?<div className='ContenedorLogin'><Login onChange={(value)=>setMostrarLogin(value)}  /><button className='laX' onClick={onButtonClick}>X</button></div>:null}
       </React.Fragment>
